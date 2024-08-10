@@ -1,38 +1,45 @@
-import { createWebhook, triggerTestWebhook } from "@/app/actions";
 import { HookdeckPubSub } from "@hookdeck/pubsub";
 import WebHookTestButton from "./webhook-test-button";
 import WebhookRegistrationForm from "./webhook-registrations-from";
 import { FormButton } from "./form-button";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default async function Dashboard({
-  params,
-}: {
-  params: { username: string };
-}) {
+export default async function Dashboard() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data?.user) {
+    redirect("/login");
+  }
+
   const pubsub = new HookdeckPubSub({
     apiKey: process.env.HOOKDECK_API_KEY!,
   });
 
+  const user = data.user;
+
   let subscriptions = await pubsub.getSubscriptions({
-    name: params.username,
+    name: user.id,
   });
 
   // getSubscriptions current does a fuzzy match so make sure the subscriptions are for the current user
   subscriptions = subscriptions.filter((subscription) =>
-    subscription.channelName.startsWith(`${params.username}__`)
+    subscription.channelName.startsWith(`${user.id}__`)
   );
 
   return (
     <div className="w-full h-full flex flex-col justify-left items-start flex-grow">
       <section>
         <p>
-          Welcome, <strong>{params.username}</strong>.
+          Welcome, <strong>{user.email}</strong>.
         </p>
       </section>
 
       <section className="w-full mt-10 border-slate-700 border-2 p-10 rounded-md">
         <h2 className="text-xl mb-4">Register a new webhook</h2>
-        <WebhookRegistrationForm username={params.username} />
+        <WebhookRegistrationForm userId={user.id} />
       </section>
 
       <section className="w-full mt-10 border-slate-700 border-2 p-10 rounded-md">

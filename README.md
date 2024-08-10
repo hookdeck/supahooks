@@ -8,10 +8,12 @@ A demo of using [Hookdeck](<(https://hookdeck.com?ref=github-outbound-webhooks-d
 
 [Signup for Hookdeck](https://dashboard.hookdeck.com?ref=github-outbound-webhooks-demo), and from within a project, get your API key from **Settings -> Secrets**.
 
-Add the Hookdeck API key to a `.env.local` file:
+Add the credentials to a `.env.local` file:
 
 ```
 HOOKDECK_API_KEY=<API_KEY>
+NEXT_PUBLIC_SUPABASE_URL=<your_supabase_project_url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
 ```
 
 Install the project dependencies:

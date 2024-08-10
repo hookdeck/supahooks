@@ -1,6 +1,6 @@
 "use client";
 
-import { createWebhook } from "@/app/actions";
+import { createWebhook } from "./actions";
 import { useFormState } from "react-dom";
 import { FormButton } from "./form-button";
 import { useEffect, useRef } from "react";
@@ -13,9 +13,9 @@ const initialState = {
 };
 
 export default function WebhookRegistrationForm({
-  username,
+  userId,
 }: {
-  username: string;
+  userId: string;
 }) {
   const [state, formAction] = useFormState(createWebhook, initialState);
   const ref = useRef<HTMLFormElement>(null);
@@ -61,7 +61,7 @@ export default function WebhookRegistrationForm({
       </div>
 
       <div className="flex flex-col gap-2">
-        <input type="hidden" name="username" value={username} />
+        <input type="hidden" name="user_id" value={userId} />
         <FormButton
           states={["Create", "Creating..."]}
           className="p-2 w-[95px]"

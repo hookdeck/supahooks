@@ -1,6 +1,6 @@
 "use client";
 
-import { triggerTestWebhook } from "@/app/actions";
+import { triggerTestWebhook } from "./actions";
 import { Subscription } from "@hookdeck/pubsub";
 import { FormButton } from "./form-button";
 

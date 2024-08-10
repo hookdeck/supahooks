@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@hookdeck/pubsub": "^0.1.1-alpha",
+    "@supabase/ssr": "^0.4.0",
+    "@supabase/supabase-js": "^2.45.1",
     "next": "^14.2.5",
     "react": "^18",
     "react-dom": "^18",

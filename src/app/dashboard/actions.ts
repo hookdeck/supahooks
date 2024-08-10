@@ -16,7 +16,7 @@ const pubsub = new HookdeckPubSub({
 export async function createWebhook(prevState: any, formData: FormData) {
   "use server";
 
-  const username = formData.get("username") as string;
+  const userId = formData.get("user_id") as string;
   const webhookUrl = formData.get("url") as string;
   const authType = formData.get("auth_type") as string;
 
@@ -44,7 +44,7 @@ export async function createWebhook(prevState: any, formData: FormData) {
 
   try {
     await pubsub.subscribe({
-      channelName: `${username}__${btoa(webhookUrl).replace(/=/g, "_")}`,
+      channelName: `${userId}__${btoa(webhookUrl).replace(/=/g, "_")}`,
       url: webhookUrl,
       auth: webhookUrlAuth,
     });
@@ -55,7 +55,7 @@ export async function createWebhook(prevState: any, formData: FormData) {
     };
   }
 
-  revalidatePath(`/dashboard/${username}`);
+  revalidatePath(`/dashboard`);
   return {
     success: true,
     message: "",
