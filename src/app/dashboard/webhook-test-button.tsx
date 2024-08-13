@@ -1,13 +1,13 @@
 "use client";
 
+import { WebhookSubscription } from "@/types";
 import { triggerTestWebhook } from "./actions";
-import { Subscription } from "@hookdeck/pubsub";
 import { FormButton } from "./form-button";
 
-export default function WebHookTestButton({
+export default function WebhookTestButton({
   subscription,
 }: {
-  subscription: Subscription;
+  subscription: WebhookSubscription;
 }) {
   return (
     <form action={triggerTestWebhook}>

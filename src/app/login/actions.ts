@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
+import { checkAccountsTable } from "@/utils";
 
 export async function login(formData: FormData) {
   const supabase = createClient();
@@ -19,6 +20,11 @@ export async function login(formData: FormData) {
 
   if (error) {
     redirect("/error");
+  }
+
+  const result = await checkAccountsTable();
+  if (result.error) {
+    redirect(`/error?message=${result.error}`);
   }
 
   revalidatePath("/", "layout");

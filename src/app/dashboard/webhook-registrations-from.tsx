@@ -5,8 +5,6 @@ import { useFormState } from "react-dom";
 import { FormButton } from "./form-button";
 import { useEffect, useRef } from "react";
 
-const allowedAuthTypes = ["Hookdeck"];
-
 const initialState = {
   message: "",
   success: false,
@@ -41,22 +39,6 @@ export default function WebhookRegistrationForm({
         />
         {state?.errors?.url && (
           <p className="text-red-500">{state.errors.url}</p>
-        )}
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="auth_type">Webhook Authentication</label>
-        <select
-          name="auth_type"
-          className="text-slate-900 rounded-md p-2 border-1"
-        >
-          {allowedAuthTypes.map((authType) => (
-            <option key={authType} value={authType}>
-              {authType}
-            </option>
-          ))}
-        </select>
-        {state?.errors?.authType && (
-          <p className="text-red-500">{state.errors.authType}</p>
         )}
       </div>
 

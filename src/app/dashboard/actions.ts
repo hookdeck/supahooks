@@ -1,16 +1,19 @@
 "use server";
 
-import { HookdeckPubSub, SubscriberAuth } from "@hookdeck/pubsub";
+import {
+  createWebhookSubscription,
+  deleteWebhookSubscription,
+} from "@/utils/hookdeck";
+import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const createWebhookSchema = z.object({
   url: z.string().url(),
-  authType: z.enum(["Hookdeck"]),
 });
 
-const pubsub = new HookdeckPubSub({
-  apiKey: process.env.HOOKDECK_API_KEY!,
+const deleteWebhookSchema = z.object({
+  id: z.string(),
 });
 
 export async function createWebhook(prevState: any, formData: FormData) {
@@ -18,11 +21,9 @@ export async function createWebhook(prevState: any, formData: FormData) {
 
   const userId = formData.get("user_id") as string;
   const webhookUrl = formData.get("url") as string;
-  const authType = formData.get("auth_type") as string;
 
   const validatedFields = createWebhookSchema.safeParse({
     url: webhookUrl,
-    authType,
   });
 
   if (!validatedFields.success) {
@@ -31,27 +32,60 @@ export async function createWebhook(prevState: any, formData: FormData) {
     };
   }
 
-  let webhookUrlAuth: SubscriberAuth | undefined = undefined;
-  switch (authType) {
-    case "Hookdeck":
-      // by leaving webhookUrlAuth undefined, we are using the default Hookdeck authentication
-      // For some reason, setting triggers a 500 server error
-      // webhookUrlAuth = {
-      //   type: "HOOKDECK_SIGNATURE",
-      // };
-      break;
+  const supabase = createClient();
+  const account = await supabase
+    .from("accounts")
+    .select("webhook_secret")
+    .single();
+  if (account.error) {
+    return {
+      success: false,
+      message: "Account not found",
+    };
   }
 
   try {
-    await pubsub.subscribe({
-      channelName: `${userId}__${btoa(webhookUrl).replace(/=/g, "_")}`,
-      url: webhookUrl,
-      auth: webhookUrlAuth,
+    await createWebhookSubscription({
+      id: userId,
+      webhookUrl,
+      webhookSecret: account.data.webhook_secret,
     });
   } catch (error) {
     return {
       success: false,
       message: "Could not create webhook",
+    };
+  }
+
+  revalidatePath(`/dashboard`);
+  return {
+    success: true,
+    message: "",
+  };
+}
+
+export async function deleteWebhook(prevState: any, formData: FormData) {
+  "use server";
+
+  const subscriptionId = formData.get("id") as string;
+
+  const validatedFields = deleteWebhookSchema.safeParse({
+    id: subscriptionId,
+  });
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    await deleteWebhookSubscription({ id: subscriptionId });
+  } catch (error) {
+    return {
+      success: false,
+      message: "Could not delete webhook",
     };
   }
 

@@ -41,7 +41,12 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname
   );
 
-  if (isUserAuthPage) {
+  if (user !== null && isUserAuthPage) {
+    // User is already logged in so send them to the /dashboard page
+    const url = request.nextUrl.clone();
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
+  } else if (isUserAuthPage) {
     console.log("User is on an auth page, skipping middleware");
     return supabaseResponse;
   }
