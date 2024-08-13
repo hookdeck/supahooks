@@ -2,7 +2,7 @@
 
 A demo of using [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-demo) as your outbound webhook infrastructure.
 
-![Outbound Webhooks Demo with Hookdeck](docs/outbound-webhooks-demo.png)
+![Outbound Webhooks Demo with Hookdeck](docs/outbound-webhooks-demo-v2.png)
 
 ## Getting Started
 
