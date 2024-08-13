@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteWebhook } from "./actions";
+import { deleteWebhook } from "../../dashboard/actions";
 import { FormButton } from "./form-button";
 import { useFormState } from "react-dom";
 import { useState } from "react";
@@ -27,7 +27,7 @@ export default function WebhookDeleteButton({
       <input type="hidden" name="id" value={subscription.connection.id} />
       {!confirmDelete && (
         <button
-          className={`bg-slate-700 p-1 rounded-md cursor-pointer h-full w-[80px]`}
+          className={`button p-1 w-[80px]`}
           onClick={() => setConfirmDelete(true)}
         >
           Delete
@@ -37,10 +37,10 @@ export default function WebhookDeleteButton({
         <>
           <FormButton
             states={[<FaRegTrashCan className="inline" />, "..."]}
-            className="bg-red-600  w-[35px]"
+            className="bg-red-600 w-[35px] p-1"
           />
           <button
-            className={`bg-slate-700 p-1 rounded-md cursor-pointer h-full w-[35px] content-center`}
+            className={`button w-[35px] p-1`}
             onClick={() => setConfirmDelete(false)}
           >
             <FaUndo className="inline" />

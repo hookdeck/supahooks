@@ -35,3 +35,9 @@ a {
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .button {
+    @apply bg-slate-700 p-2 rounded-md cursor-pointer h-full;
+  }
+}

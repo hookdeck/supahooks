@@ -1,6 +1,6 @@
 "use client";
 
-import { createWebhook } from "./actions";
+import { createWebhook } from "../../dashboard/actions";
 import { useFormState } from "react-dom";
 import { FormButton } from "./form-button";
 import { useEffect, useRef } from "react";

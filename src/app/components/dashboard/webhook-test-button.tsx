@@ -1,7 +1,7 @@
 "use client";
 
 import { WebhookSubscription } from "@/types";
-import { triggerTestWebhook } from "./actions";
+import { triggerTestWebhook } from "../../dashboard/actions";
 import { FormButton } from "./form-button";
 
 export default function WebhookTestButton({
@@ -16,7 +16,7 @@ export default function WebhookTestButton({
         name="url"
         value={subscription.connection.source.url}
       />
-      <FormButton states={["Test", "Testing..."]} />
+      <FormButton states={["Test", "Testing..."]} className="p-1 w-[80px]" />
     </form>
   );
 }

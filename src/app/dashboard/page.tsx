@@ -1,11 +1,11 @@
-import WebhookTestButton from "./webhook-test-button";
-import WebhookRegistrationForm from "./webhook-registrations-from";
+import WebhookTestButton from "../components/dashboard/webhook-test-button";
+import WebhookRegistrationForm from "../components/dashboard/webhook-registrations-from";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { CopyButton } from "./copy-button";
+import { CopyButton } from "../components/dashboard/copy-button";
 import { getWebhookSubscriptions } from "@/utils/hookdeck";
-import WebhookDeleteButton from "./webhook-delete-button";
+import WebhookDeleteButton from "../components/dashboard/webhook-delete-button";
 
 export default async function Dashboard() {
   const supabase = createClient();

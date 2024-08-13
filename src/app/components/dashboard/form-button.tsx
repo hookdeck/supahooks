@@ -12,10 +12,7 @@ export function FormButton({
 }) {
   const { pending } = useFormStatus();
   return (
-    <button
-      disabled={pending}
-      className={`bg-slate-700 p-1 rounded-md cursor-pointer h-full w-[80px] ${className}`}
-    >
+    <button disabled={pending} className={`button ${className}`}>
       {pending ? states[1] : states[0]}
     </button>
   );

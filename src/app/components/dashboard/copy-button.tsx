@@ -15,7 +15,7 @@ export function CopyButton({
   return (
     <>
       <button
-        className={`bg-slate-700 rounded-md cursor-pointer h-full w-[80px] p-2 ${className}`}
+        className={`button w-[80px] ${className}`}
         onClick={async (e) => {
           e.preventDefault();
           await navigator.clipboard.writeText(value);
