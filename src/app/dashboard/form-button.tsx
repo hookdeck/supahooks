@@ -1,12 +1,13 @@
 "use client";
 
+import { ReactElement } from "react";
 import { useFormStatus } from "react-dom";
 
 export function FormButton({
   states,
   className,
 }: {
-  states: [string, string];
+  states: [string | ReactElement, string | ReactElement];
   className?: string;
 }) {
   const { pending } = useFormStatus();
