@@ -32,7 +32,7 @@ export default function RootLayout({
                 Hookdeck Outbound Webhooks Demo
               </h2>
             </div>
-            <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
+            <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-cente lg:static lg:size-auto lg:bg-none">
               <a
                 className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0 no-underline"
                 href="https://hookdeck.com?ref=outbound-webhooks-demo"
@@ -52,7 +52,7 @@ export default function RootLayout({
               </a>
             </div>
           </div>
-          <main className="flex flex-col w-full h-full max-w-5xl flex-grow mt-6">
+          <main className="flex flex-col w-full h-full max-w-5xl flex-grow mt-10">
             {children}
           </main>
         </div>
