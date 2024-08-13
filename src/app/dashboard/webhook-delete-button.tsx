@@ -6,6 +6,9 @@ import { useFormState } from "react-dom";
 import { useState } from "react";
 import { WebhookSubscription } from "@/types";
 
+import { FaRegTrashCan } from "react-icons/fa6";
+import { FaUndo } from "react-icons/fa";
+
 const initialState = {
   message: "",
   success: false,
@@ -31,10 +34,18 @@ export default function WebhookDeleteButton({
         </button>
       )}
       {confirmDelete && (
-        <FormButton
-          states={["Confirm", "Deleting..."]}
-          className="bg-red-600"
-        />
+        <>
+          <FormButton
+            states={[<FaRegTrashCan className="inline" />, "..."]}
+            className="bg-red-600  w-[35px]"
+          />
+          <button
+            className={`bg-slate-700 p-1 rounded-md cursor-pointer h-full w-[35px] content-center`}
+            onClick={() => setConfirmDelete(false)}
+          >
+            <FaUndo className="inline" />
+          </button>
+        </>
       )}
       {!state.success && <p>{state.message}</p>}
       {state.errors && state.errors.id && <p>{state.errors.id.join(", ")}</p>}
