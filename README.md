@@ -1,6 +1,6 @@
 # Outbound Webhooks Demo for Hookdeck
 
-A demo of using [Hookdeck](<(https://hookdeck.com?ref=github-outbound-webhooks-demo) as your outbound webhook infrastructure.
+A demo of using [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-demo) as your outbound webhook infrastructure.
 
 ![Outbound Webhooks Demo with Hookdeck](docs/outbound-webhooks-demo.png)
 
