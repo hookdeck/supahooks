@@ -36,8 +36,14 @@ export default function WebhookDeleteButton({
       {confirmDelete && (
         <>
           <FormButton
-            states={[<FaRegTrashCan className="inline" />, "..."]}
             className="bg-red-600 w-[35px]"
+            states={[
+              <FaRegTrashCan
+                key={`trash_${subscription.connection.id}`}
+                className="inline"
+              />,
+              "...",
+            ]}
           />
           <button
             className={`button w-[35px]`}

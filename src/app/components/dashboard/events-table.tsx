@@ -4,7 +4,7 @@ import { triggerTestWebhook } from "@/app/dashboard/actions";
 import { Event, Subscription } from "@hookdeck/pubsub";
 import { Hookdeck } from "@hookdeck/sdk";
 import dayjs from "dayjs";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { FaArrowRotateRight } from "react-icons/fa6";
 import { FaAngleRight, FaAngleDown } from "react-icons/fa";
 
@@ -22,7 +22,7 @@ export function EventsTable({ subscription }: { subscription: Subscription }) {
     "REQUEST"
   );
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     setLoading(true);
     const response = await fetch(
       `/api/events?id=${subscription.connection.id}`
@@ -30,15 +30,15 @@ export function EventsTable({ subscription }: { subscription: Subscription }) {
     const events = await response.json();
     setEventList(events);
     setLoading(false);
-  };
+  }, [subscription.connection.id]);
 
-  const fetchAttempts = async (id: string) => {
+  const fetchAttempts = useCallback(async (id: string) => {
     setLoading(true);
     const response = await fetch(`/api/attempts?id=${id}`);
     const attempts = await response.json();
     setAttemptsList(attempts);
     setLoading(false);
-  };
+  }, []);
 
   const showEventDetails = (id: string) => {
     const showEventId = showEventDetailsId === id ? null : id;
@@ -52,7 +52,7 @@ export function EventsTable({ subscription }: { subscription: Subscription }) {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
   console.log(attemptsList);
   return (

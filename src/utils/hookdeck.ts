@@ -55,7 +55,7 @@ export async function getWebhookSubscriptions({
     });
   } else {
     subscriptions = await pubsub.getSubscriptions({
-      name: userId,
+      channelName: userId,
     });
   }
 
