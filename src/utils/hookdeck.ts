@@ -63,36 +63,11 @@ export async function getWebhookSubscriptions({
 }
 
 export async function getWebhookEvents({ id }: { id: string }) {
-  const events: Hookdeck.Event[] = [];
-  const eventResults = await pubsub.getEvents({ subscriptionId: id });
-
-  for (let i = 0; i < eventResults.length; ++i) {
-    const event = eventResults[i];
-    // Get details with the body
-    const eventResult = await hookdeck.event.retrieve(event.id);
-    if (eventResult) {
-      events.push(eventResult);
-    }
-  }
-
-  return events;
+  return await pubsub.getEvents({ subscriptionId: id, includeBody: true });
 }
 
 export async function getWebhookAttempts({ eventId }: { eventId: string }) {
-  const attempts: Hookdeck.EventAttempt[] = [];
-  const attemptsResult = await hookdeck.attempt.list({ eventId });
-  for (let i = 0; i < (attemptsResult.count || 0); ++i) {
-    const attempt = attemptsResult.models![i];
-    if (attempt) {
-      // Get details with the body
-      const attemptResult = await hookdeck.attempt.retrieve(attempt.id);
-      if (attemptResult) {
-        attempts.push(attemptResult);
-      }
-    }
-  }
-
-  return attempts;
+  return pubsub.getDeliveryAttempts({ eventId, includeBody: true });
 }
 
 export async function publishWebhookEvent({
