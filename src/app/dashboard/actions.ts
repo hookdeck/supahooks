@@ -1,8 +1,10 @@
 "use server";
 
+import { stripWebhookHeaders } from "@/utils";
 import {
   createWebhookSubscription,
   deleteWebhookSubscription,
+  publishWebhookEvent,
 } from "@/utils/hookdeck";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
@@ -14,6 +16,12 @@ const createWebhookSchema = z.object({
 
 const deleteWebhookSchema = z.object({
   id: z.string(),
+});
+
+const testTriggerWebhookSchema = z.object({
+  subscription_id: z.string(),
+  headers: z.string(),
+  body: z.string(),
 });
 
 export async function createWebhook(prevState: any, formData: FormData) {
@@ -99,14 +107,36 @@ export async function deleteWebhook(prevState: any, formData: FormData) {
 export async function triggerTestWebhook(formData: FormData) {
   "use server";
 
-  const url = formData.get("url") as string;
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      test: "data",
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
+  const subscriptionId = formData.get("subscription_id") as string;
+  const headers = formData.get("headers") as string;
+  const body = formData.get("body") as string;
+
+  const validatedFields = testTriggerWebhookSchema.safeParse({
+    subscription_id: subscriptionId,
+    headers,
+    body,
+  });
+
+  if (!validatedFields.success) {
+    console.error(
+      "Error validating in triggerTestWebhook",
+      validatedFields.error.flatten().fieldErrors
+    );
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const headersObj = JSON.parse(headers) as Record<string, string>;
+  const allowedHeaders = stripWebhookHeaders(headersObj);
+
+  console.log("Triggering webhook", subscriptionId, allowedHeaders, body);
+  const bodyObj = JSON.parse(body);
+
+  await publishWebhookEvent({
+    subscriptionId,
+    type: typeof bodyObj.type !== "undefined" ? bodyObj.type : "test",
+    body: typeof bodyObj.data !== "undefined" ? bodyObj.data : bodyObj,
+    headers: allowedHeaders,
   });
 }

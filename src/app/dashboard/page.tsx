@@ -1,11 +1,10 @@
-import WebhookTestButton from "../components/dashboard/webhook-test-button";
 import WebhookRegistrationForm from "../components/dashboard/webhook-registrations-from";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { CopyButton } from "../components/dashboard/copy-button";
 import { getWebhookSubscriptions } from "@/utils/hookdeck";
 import WebhookDeleteButton from "../components/dashboard/webhook-delete-button";
+import { AccountBar } from "../components/dashboard/account-bar";
+import Link from "next/link";
 
 export default async function Dashboard() {
   const supabase = createClient();
@@ -14,14 +13,6 @@ export default async function Dashboard() {
 
   if (error || !data?.user) {
     redirect("/login");
-  }
-
-  const account = await supabase
-    .from("accounts")
-    .select("webhook_secret")
-    .single();
-  if (account.error) {
-    redirect(`/error?message=Account not found`);
   }
 
   const user = data.user;
@@ -37,25 +28,13 @@ export default async function Dashboard() {
 
   return (
     <div className="w-full h-full flex flex-col justify-left items-start flex-grow">
-      <section className="flex flex-col gap-2">
-        <p>
-          Welcome, <strong>{user.email}</strong> (
-          <Link href="/logout">Logout</Link>
-          ).
-        </p>
-        <form className="flex flex-row gap-6 w-full items-center">
-          <div className="flex flex-row gap-4 items-center">
-            <label htmlFor="url">Webhook Secret</label>
-            <input
-              type="password"
-              value={account.data.webhook_secret}
-              readOnly
-              className="text-slate-900 min-w-[400px] rounded-md p-2 text-sm"
-            />
-            <CopyButton text="Copy" value={account.data.webhook_secret} />
-          </div>
-        </form>
-      </section>
+      <AccountBar user={user} />
+
+      <div className="mt-8">
+        <span>
+          &gt; <Link href="/dashboard">Dashboard</Link>
+        </span>
+      </div>
 
       <section className="w-full mt-10 border-slate-700 border-2 p-10 rounded-md">
         <h2 className="text-xl mb-4">Register a new webhook</h2>
@@ -79,7 +58,12 @@ export default async function Dashboard() {
                   <tr key={subscription.channelName}>
                     <td className="py-2">{subscription.url}</td>
                     <td className="flex flex-row gap-2">
-                      <WebhookTestButton subscription={subscription} />
+                      <Link
+                        href={`/dashboard/webhooks/${subscription.connection.id}`}
+                        className="button no-underline p-2"
+                      >
+                        View
+                      </Link>
                       <WebhookDeleteButton subscription={subscription} />
                     </td>
                   </tr>

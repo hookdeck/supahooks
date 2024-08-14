@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="flex min-h-screen flex-col items-center p-24 pt-4">
-          <div className="z-10 w-full max-w-5xl items-start justify-between lg:flex mt-4 border-b-2 pb-4 border-b-slate-500">
+          <div className="z-10 w-full max-w-5xl items-start justify-between lg:flex mt-4 pb-4 bottom-divider">
             <div className="flex flex-col justify-start items-start gap-2">
               <h1 className="flex text-xl dark:from-inherit lg:static lg:w-auto">
                 <Link className="no-underline" href="/">

@@ -34,10 +34,18 @@ a {
   .text-balance {
     text-wrap: balance;
   }
+
+  .bottom-divider {
+    @apply border-b-2 border-b-slate-500;
+  }
 }
 
 @layer components {
   .button {
-    @apply bg-slate-700 p-2 rounded-md cursor-pointer h-full;
+    @apply bg-slate-700 p-2 rounded-md cursor-pointer h-full hover:bg-slate-600;
+  }
+
+  .section {
+    @apply w-full mt-10 border-slate-700 border-2 p-8 rounded-md;
   }
 }

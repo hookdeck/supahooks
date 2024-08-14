@@ -10,12 +10,13 @@ A demo of using [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-dem
 
 [Signup for Supabase](https://supabase.com/dashboard/sign-up?ref=github-outbound-webhooks-demo), create a new project, and get your Supabase URL and Anon Key.
 
-Add the credentials for Hookdeck and Supabase to a `.env.local` file:
+Add the credentials for Hookdeck and Supabase to a `.env.local` file along with a `PUBLISH_KEY` which should be a unique key that enables webhooks to be triggered:
 
-```
-HOOKDECK_API_KEY=<API_KEY>
+```.env
+HOOKDECK_API_KEY=<your_hookdeck_project_api_key>
 NEXT_PUBLIC_SUPABASE_URL=<your_supabase_project_url>
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
+PUBLISH_KEY=<add_your_own_unique_key_here>
 ```
 
 Copy the contents of [supabase/schema.sql](supabase/schema.sql) into the Supabase SQL editor and run it to create your schema.

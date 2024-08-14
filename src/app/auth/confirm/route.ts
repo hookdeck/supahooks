@@ -3,7 +3,7 @@ import { type NextRequest } from "next/server";
 
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { checkAccountsTable } from "@/utils";
+import { checkAccountsTable } from "@/utils/supabase/helpers";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

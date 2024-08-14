@@ -37,10 +37,10 @@ export default function WebhookDeleteButton({
         <>
           <FormButton
             states={[<FaRegTrashCan className="inline" />, "..."]}
-            className="bg-red-600 w-[35px] p-1"
+            className="bg-red-600 w-[35px]"
           />
           <button
-            className={`button w-[35px] p-1`}
+            className={`button w-[35px]`}
             onClick={() => setConfirmDelete(false)}
           >
             <FaUndo className="inline" />

@@ -26,7 +26,7 @@ export default function WebhookRegistrationForm({
     <form
       ref={ref}
       action={formAction}
-      className="flex flex-row gap-6 w-full items-end"
+      className="flex flex-row gap-4 w-full items-end"
     >
       <div className="flex flex-col gap-2">
         <label htmlFor="url">Webhook URL</label>
@@ -44,10 +44,7 @@ export default function WebhookRegistrationForm({
 
       <div className="flex flex-col gap-2">
         <input type="hidden" name="user_id" value={userId} />
-        <FormButton
-          states={["Create", "Creating..."]}
-          className="p-2 w-[95px]"
-        />
+        <FormButton states={["Create", "Creating..."]} className="w-[95px]" />
       </div>
       {state?.success === false && (
         <p className="text-red-500">{state.message}</p>

@@ -13,10 +13,16 @@ export default function WebhookTestButton({
     <form action={triggerTestWebhook}>
       <input
         type="hidden"
-        name="url"
-        value={subscription.connection.source.url}
+        name="subscription_id"
+        value={subscription.connection.id}
       />
-      <FormButton states={["Test", "Testing..."]} className="p-1 w-[80px]" />
+      <input type="hidden" name="headers" value={JSON.stringify({})} />
+      <input
+        type="hidden"
+        name="body"
+        value={JSON.stringify({ example: "data" })}
+      />
+      <FormButton states={["Test", "Testing..."]} className=" w-[80px]" />
     </form>
   );
 }

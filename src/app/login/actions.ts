@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
-import { checkAccountsTable } from "@/utils";
+import { checkAccountsTable } from "@/utils/supabase/helpers";
 
 export async function login(formData: FormData) {
   const supabase = createClient();
