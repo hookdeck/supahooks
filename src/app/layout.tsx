@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
+import { TbWebhook } from "react-icons/tb";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,8 +26,11 @@ export default function RootLayout({
           <div className="z-10 w-full max-w-5xl items-start justify-between lg:flex mt-4 pb-4 bottom-divider">
             <div className="flex flex-col justify-start items-start gap-2">
               <h1 className="flex text-xl dark:from-inherit lg:static lg:w-auto">
-                <Link className="no-underline" href="/">
-                  SupaHooks
+                <Link
+                  className="no-underline flex flex-row items-center gap-1"
+                  href="/"
+                >
+                  <TbWebhook className="text-[#0044CC]" /> SupaHooks
                 </Link>
               </h1>
               <h2 className="font-mono text-sm">
