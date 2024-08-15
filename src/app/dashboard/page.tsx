@@ -17,14 +17,24 @@ export default async function Dashboard() {
 
   const user = data.user;
 
-  let subscriptions = await getWebhookSubscriptions({
+  const allSubscriptions = await getWebhookSubscriptions({
     userId: user.id,
   });
 
   // getSubscriptions current does a fuzzy match so make sure the subscriptions are for the current user
-  subscriptions = subscriptions.filter((subscription) =>
-    subscription.connection.name!.startsWith(`${user.id}__`)
+  const subscriptions = allSubscriptions.filter((subscription) =>
+    subscription.connection.name!.startsWith(`conn_${user.id}__`)
   );
+
+  if (allSubscriptions.length !== subscriptions.length) {
+    console.warn(
+      "Had to filter subscriptions.",
+      "All subscriptions:",
+      allSubscriptions.length,
+      "Filtered subscriptions:",
+      subscriptions.length
+    );
+  }
 
   return (
     <div className="w-full h-full flex flex-col justify-left items-start flex-grow">
