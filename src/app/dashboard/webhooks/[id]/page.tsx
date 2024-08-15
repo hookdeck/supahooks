@@ -41,6 +41,10 @@ export default async function Dashboard({
 
   const subscription = subscriptions[0];
 
+  if (!subscription) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="w-full h-full flex flex-col justify-left items-start flex-grow">
       <AccountBar user={user} />
