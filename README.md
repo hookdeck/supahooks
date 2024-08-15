@@ -1,4 +1,4 @@
-# SupaHook: An Outbound Webhooks Demo for Hookdeck
+# SupaHooks: An Outbound Webhooks Demo for Hookdeck
 
 A demo of using [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-demo) as your outbound webhook infrastructure.
 
