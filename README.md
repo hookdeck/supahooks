@@ -1,14 +1,26 @@
-# SupaHooks: Outbound Webhooks Demo for Hookdeck</h1>
+# SupaHooks: Outbound Webhooks Template for Hookdeck</h1>
 
-A demo of using [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-demo) as your outbound webhook infrastructure.
+A template demonstrating using [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-template) as your outbound webhook infrastructure.
 
-![Outbound Webhooks Demo with Hookdeck](docs/outbound-webhooks-demo-v3.png)
+![Outbound Webhooks with Hookdeck](docs/outbound-webhooks-demo-v3.png)
+
+## About
+
+[Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-template) is an [event gateway](https://hookdeck.com/blog/event-gateway-definition?ref=github-outbound-webhooks-template): infrastructure that supports use cases, including receiving webhooks, sending webhooks, and connecting third-party services.
+
+This template provides the basic building blocks for registering and managing webhook subscriptions with Hookdeck.
+
+Specifically:
+
+- Each webhook subscription is represented within Hookdeck as a [Connection](https://hookdeck.com/docs/connections?ref=github-outbound-webhooks-template)
+- A Connection has a [Destination](https://hookdeck.com/docs/destinations?ref=github-outbound-webhooks-template), representing the webhook endpoint.
+- A Connection also has a [Source](https://hookdeck.com/docs/sources?ref=github-outbound-webhooks-template), which a webhook publisher should make an authenticated request to publish an event.
 
 ## Getting Started
 
-[Signup for Hookdeck](https://dashboard.hookdeck.com?ref=github-outbound-webhooks-demo), and from within a project, get your API key from **Settings -> Secrets**.
+[Signup for Hookdeck](https://dashboard.hookdeck.com?ref=github-outbound-webhooks-template), and from within a project, get your API key from **Settings -> Secrets**.
 
-[Signup for Supabase](https://supabase.com/dashboard/sign-up?ref=github-outbound-webhooks-demo), create a new project, and get your Supabase URL and Anon Key.
+[Signup for Supabase](https://supabase.com/dashboard/sign-up?ref=github-outbound-webhooks-template), create a new project, and get your Supabase URL and Anon Key.
 
 Add the credentials for Hookdeck and Supabase to a `.env.local` file along with a `PUBLISH_KEY` which should be a unique key that enables webhooks to be triggered:
 
@@ -39,5 +51,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Learn More
 
-- [Hookdeck Documentation](https://hookdeck.com/docs?ref=github-outbound-webhooks-demo)
+- [Hookdeck Documentation](https://hookdeck.com/docs?ref=github-outbound-webhooks-template)
+- [Supabase Documentation](https://supabase.com/docs?ref=github-outbound-webhooks-template)
 - [Next.js](https://nextjs.org)

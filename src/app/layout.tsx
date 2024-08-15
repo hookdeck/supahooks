@@ -9,7 +9,7 @@ import { TbWebhook } from "react-icons/tb";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SupaHooks - Hookdeck Outbound Webhooks Demo",
+  title: "SupaHooks - Hookdeck Outbound Webhooks",
   description:
     "A basic dashboard example that shows how to use Hookdeck as outbound webhook infrastructure",
 };
@@ -33,14 +33,12 @@ export default function RootLayout({
                   <TbWebhook className="text-[#0044CC]" /> SupaHooks
                 </Link>
               </h1>
-              <h2 className="font-mono text-sm">
-                Hookdeck Outbound Webhooks Demo
-              </h2>
+              <h2 className="font-mono text-sm">Hookdeck Outbound Webhooks</h2>
             </div>
             <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-cente lg:static lg:size-auto lg:bg-none">
               <a
                 className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0 no-underline"
-                href="https://hookdeck.com?ref=outbound-webhooks-demo"
+                href="https://hookdeck.com?ref=outbound-webhooks-template"
                 target="_blank"
                 rel="noopener noreferrer"
               >
