@@ -1,4 +1,4 @@
-<h1 style="text-align:center;">SupaHooks<br />An Outbound Webhooks Demo for Hookdeck</h1>
+# SupaHooks: Outbound Webhooks Demo for Hookdeck</h1>
 
 A demo of using [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-demo) as your outbound webhook infrastructure.
 
