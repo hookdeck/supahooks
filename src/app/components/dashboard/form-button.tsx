@@ -12,12 +12,22 @@ export type FormButtonProps = {
   states: FormButtonPropsStates;
   className?: string;
   title?: string;
+  disabled?: boolean;
 };
 
-export function FormButton({ states, className, title }: FormButtonProps) {
+export function FormButton({
+  states,
+  className,
+  title,
+  disabled = false,
+}: FormButtonProps) {
   const { pending } = useFormStatus();
   return (
-    <button disabled={pending} title={title} className={`button ${className}`}>
+    <button
+      disabled={disabled || pending}
+      title={title}
+      className={`button ${className}`}
+    >
       {pending ? states[1] : states[0]}
     </button>
   );

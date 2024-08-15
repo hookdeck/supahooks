@@ -42,7 +42,9 @@ a {
 
 @layer components {
   .button {
-    @apply bg-slate-700 p-2 rounded-md cursor-pointer h-full hover:bg-slate-500 hover:border-slate-700;
+    @apply bg-slate-700 p-2 rounded-md cursor-pointer h-full;
+    @apply hover:bg-slate-500;
+    @apply disabled:opacity-50 disabled:hover:bg-slate-700;
   }
 
   .section {

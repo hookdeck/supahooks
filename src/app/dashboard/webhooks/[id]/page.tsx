@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-import { getWebhookEvents, getWebhookSubscriptions } from "@/utils/hookdeck";
+import { getWebhookSubscriptions } from "@/utils/hookdeck";
 
 import { AccountBar } from "@/app/components/dashboard/account-bar";
 import WebhookTestButton from "@/app/components/dashboard/webhook-test-button";
@@ -9,6 +9,7 @@ import WebhookDeleteButton from "@/app/components/dashboard/webhook-delete-butto
 import { EventsTable } from "@/app/components/dashboard/events-table";
 
 import Link from "next/link";
+import { TestEditor } from "@/app/components/dashboard/test-editor";
 
 export default async function Dashboard({
   params,
@@ -58,21 +59,21 @@ export default async function Dashboard({
       </div>
 
       <section className="section">
-        <h2 className="text-xl mb-4 font-mono">
-          {subscription.connection.destination.url}
-        </h2>
-        <div className="flex flex-row gap-2">
-          <WebhookTestButton
-            subscription={subscription}
-            headers={{}}
-            body={{
-              exampleString: "payload",
-              exampleBool: true,
-              exampleInt: 99,
-            }}
-          />
+        <div className="flex flex-row items-center mb-4 gap-4">
+          <h2 className="text-xl font-mono">
+            {subscription.connection.destination.url}
+          </h2>
           <WebhookDeleteButton subscription={subscription} />
         </div>
+
+        <TestEditor
+          subscription={subscription}
+          json={{
+            exampleString: "payload",
+            exampleBool: true,
+            exampleInt: 99,
+          }}
+        />
       </section>
 
       <section className="section">

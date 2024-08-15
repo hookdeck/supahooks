@@ -14,12 +14,14 @@ export default function WebhookTestButton({
   subscription,
   headers,
   body,
+  disabled = false,
 }: {
   className?: string;
   buttonStates?: FormButtonPropsStates;
   subscription: WebhookSubscription;
   headers: Record<string, string>;
   body: unknown;
+  disabled?: boolean;
 }) {
   const [state, formAction] = useFormState(triggerTestWebhook, null);
   const getErrorMessage = useCallback(() => {
@@ -58,6 +60,7 @@ export default function WebhookTestButton({
         states={formButtonStates}
         className={`${className}`}
         title={errorMsg}
+        disabled={disabled}
       />
     </form>
   );
