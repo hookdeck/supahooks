@@ -91,6 +91,8 @@ export async function deleteWebhook(prevState: any, formData: FormData) {
   try {
     await deleteWebhookSubscription({ id: subscriptionId });
   } catch (error) {
+    console.error("Error deleting webhook", error);
+
     return {
       success: false,
       message: "Could not delete webhook",
