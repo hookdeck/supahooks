@@ -5,22 +5,19 @@ import { useFormState } from "react-dom";
 import { FormButton } from "./form-button";
 import { useEffect, useRef } from "react";
 
-const initialState = {
-  message: "",
-  success: false,
-};
-
 export default function WebhookRegistrationForm({
   userId,
 }: {
   userId: string;
 }) {
-  const [state, formAction] = useFormState(createWebhook, initialState);
+  const [state, formAction] = useFormState(createWebhook, null);
   const ref = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    ref.current?.reset();
-  }, [state.success]);
+    if (state?.success) {
+      ref.current?.reset();
+    }
+  }, [state]);
 
   return (
     <form

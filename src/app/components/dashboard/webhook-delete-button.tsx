@@ -9,18 +9,13 @@ import { WebhookSubscription } from "@/types";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FaUndo } from "react-icons/fa";
 
-const initialState = {
-  message: "",
-  success: false,
-};
-
 export default function WebhookDeleteButton({
   subscription,
 }: {
   subscription: WebhookSubscription;
 }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [state, formAction] = useFormState(deleteWebhook, initialState);
+  const [state, formAction] = useFormState(deleteWebhook, null);
 
   return (
     <form action={formAction} className="flex flex-row gap-2">
@@ -53,8 +48,10 @@ export default function WebhookDeleteButton({
           </button>
         </>
       )}
-      {!state.success && <p>{state.message}</p>}
-      {state.errors && state.errors.id && <p>{state.errors.id.join(", ")}</p>}
+      {state && !state.success && state.message && <p>{state.message}</p>}
+      {state && state.errors && state.errors.id && (
+        <p>{state.errors.id.join(", ")}</p>
+      )}
     </form>
   );
 }
