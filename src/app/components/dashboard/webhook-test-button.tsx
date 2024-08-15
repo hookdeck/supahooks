@@ -9,10 +9,14 @@ import { MdError } from "react-icons/md";
 import { useCallback } from "react";
 
 export default function WebhookTestButton({
+  className,
+  buttonStates = ["Test", "Testing..."],
   subscription,
   headers,
   body,
 }: {
+  className?: string;
+  buttonStates?: FormButtonPropsStates;
   subscription: WebhookSubscription;
   headers: Record<string, string>;
   body: unknown;
@@ -33,7 +37,7 @@ export default function WebhookTestButton({
   }, [state]);
   const errorMsg = getErrorMessage();
 
-  let formButtonStates: FormButtonPropsStates = ["Test", "Testing..."];
+  let formButtonStates: FormButtonPropsStates = buttonStates;
   if (errorMsg !== undefined) {
     formButtonStates = [
       <MdError key={subscription.connection.id} className="inline" />,
@@ -52,7 +56,7 @@ export default function WebhookTestButton({
       <input type="hidden" name="body" value={JSON.stringify(body)} />
       <FormButton
         states={formButtonStates}
-        className="w-[80px]"
+        className={`${className}`}
         title={errorMsg}
       />
     </form>

@@ -10,6 +10,7 @@ import { FaAngleRight, FaAngleDown } from "react-icons/fa";
 import { FormButton } from "./form-button";
 import { stripWebhookHeaders } from "@/utils";
 import { WebhookSubscription } from "@/types";
+import WebhookTestButton from "./webhook-test-button";
 
 export function EventsTable({
   subscription,
@@ -58,7 +59,6 @@ export function EventsTable({
     fetchEvents();
   }, [fetchEvents]);
 
-  console.log(attemptsList);
   return (
     <>
       <div className="flex items-start gap-2">
@@ -152,59 +152,42 @@ export function EventsTable({
                           </button>
                         </div>
                         <div
-                          className={tabSelected === "REQUEST" ? "" : "hidden"}
+                          className={`relative ${
+                            tabSelected === "REQUEST" ? "" : "hidden"
+                          }`}
                         >
-                          <form
-                            action={triggerTestWebhook}
-                            className="relative"
-                          >
-                            <input
-                              type="hidden"
-                              name="subscription_id"
-                              value={subscription.connection.id}
-                            />
-                            <input
-                              type="hidden"
-                              name="headers"
-                              value={JSON.stringify(
+                          <WebhookTestButton
+                            className="absolute top-0 right-0 button h-[50px] m-4 z-10"
+                            buttonStates={["Resend", "Resending..."]}
+                            subscription={subscription}
+                            headers={stripWebhookHeaders(
+                              (event.data as any)?.headers
+                            )}
+                            body={(event.data as any).body}
+                          />
+
+                          <h4>Webhook HTTP Headers</h4>
+                          <div className="bg-slate-600 p-2 rounded-md text-white overflow-auto relative mb-2">
+                            <pre className="w-[800px]">
+                              {JSON.stringify(
                                 stripWebhookHeaders(
                                   (event.data as any)?.headers
-                                )
+                                ),
+                                null,
+                                2
                               )}
-                            />
-                            <input
-                              type="hidden"
-                              name="body"
-                              value={JSON.stringify((event.data as any).body)}
-                            />
-                            <FormButton
-                              states={["Resend", "Resending..."]}
-                              className="absolute top-0 right-0 button h-[50px] m-4 z-10"
-                            />
-
-                            <h4>Webhook HTTP Headers</h4>
-                            <div className="bg-slate-600 p-2 rounded-md text-white overflow-auto relative mb-2">
-                              <pre className="w-[800px]">
-                                {JSON.stringify(
-                                  stripWebhookHeaders(
-                                    (event.data as any)?.headers
-                                  ),
-                                  null,
-                                  2
-                                )}
-                              </pre>
-                            </div>
-                            <h4>Webhook Body</h4>
-                            <div className="bg-slate-600 p-2 rounded-md text-white overflow-auto relative mb-2">
-                              <pre className="w-[800px]">
-                                {JSON.stringify(
-                                  (event.data as any).body,
-                                  null,
-                                  2
-                                )}
-                              </pre>
-                            </div>
-                          </form>
+                            </pre>
+                          </div>
+                          <h4>Webhook Body</h4>
+                          <div className="bg-slate-600 p-2 rounded-md text-white overflow-auto relative mb-2">
+                            <pre className="w-[800px]">
+                              {JSON.stringify(
+                                (event.data as any).body,
+                                null,
+                                2
+                              )}
+                            </pre>
+                          </div>
                         </div>
                         <div
                           className={tabSelected === "RESPONSE" ? "" : "hidden"}
