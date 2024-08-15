@@ -27,7 +27,7 @@ export default function WebhookDeleteButton({
       <input type="hidden" name="id" value={subscription.connection.id} />
       {!confirmDelete && (
         <button
-          className={`button p-1 w-[80px]`}
+          className={`button p-2 w-[80px]`}
           onClick={() => setConfirmDelete(true)}
         >
           Delete

@@ -1,3 +1,5 @@
-import { Subscription } from "@hookdeck/pubsub";
+import { Hookdeck } from "@hookdeck/sdk";
 
-export interface WebhookSubscription extends Subscription {}
+export interface WebhookSubscription {
+  connection: Hookdeck.Connection;
+}

@@ -104,7 +104,7 @@ export async function deleteWebhook(prevState: any, formData: FormData) {
   };
 }
 
-export async function triggerTestWebhook(formData: FormData) {
+export async function triggerTestWebhook(prevState: any, formData: FormData) {
   "use server";
 
   const subscriptionId = formData.get("subscription_id") as string;
@@ -133,10 +133,22 @@ export async function triggerTestWebhook(formData: FormData) {
   console.log("Triggering webhook", subscriptionId, allowedHeaders, body);
   const bodyObj = JSON.parse(body);
 
-  await publishWebhookEvent({
+  const response = await publishWebhookEvent({
     subscriptionId,
-    type: typeof bodyObj.type !== "undefined" ? bodyObj.type : "test",
-    body: typeof bodyObj.data !== "undefined" ? bodyObj.data : bodyObj,
+    body: bodyObj,
     headers: allowedHeaders,
   });
+
+  if (response.ok) {
+    return {
+      success: true,
+      message: "Webhook triggered successfully",
+    };
+  } else {
+    console.error("Error triggering webhook", response);
+    return {
+      success: false,
+      message: "Could not trigger webhook",
+    };
+  }
 }

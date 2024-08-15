@@ -23,7 +23,7 @@ export default async function Dashboard() {
 
   // getSubscriptions current does a fuzzy match so make sure the subscriptions are for the current user
   subscriptions = subscriptions.filter((subscription) =>
-    subscription.channelName.startsWith(`${user.id}__`)
+    subscription.connection.name!.startsWith(`${user.id}__`)
   );
 
   return (
@@ -55,8 +55,10 @@ export default async function Dashboard() {
               </thead>
               <tbody>
                 {subscriptions.map((subscription) => (
-                  <tr key={subscription.channelName}>
-                    <td className="py-2">{subscription.url}</td>
+                  <tr key={subscription.connection.id}>
+                    <td className="py-2">
+                      {subscription.connection.destination.url}
+                    </td>
                     <td className="flex flex-row gap-2">
                       <Link
                         href={`/dashboard/webhooks/${subscription.connection.id}`}

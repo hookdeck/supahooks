@@ -40,8 +40,6 @@ export default async function Dashboard({
 
   const subscription = subscriptions[0];
 
-  const events = await getWebhookEvents({ id: params.id });
-
   return (
     <div className="w-full h-full flex flex-col justify-left items-start flex-grow">
       <AccountBar user={user} />
@@ -52,14 +50,27 @@ export default async function Dashboard({
         </span>
         <span>
           {" "}
-          &gt; <span className="font-mono">{subscription.url}</span>
+          &gt;{" "}
+          <span className="font-mono">
+            {subscription.connection.destination.url}
+          </span>
         </span>
       </div>
 
       <section className="section">
-        <h2 className="text-xl mb-4 font-mono">{subscription.url}</h2>
+        <h2 className="text-xl mb-4 font-mono">
+          {subscription.connection.destination.url}
+        </h2>
         <div className="flex flex-row gap-2">
-          <WebhookTestButton subscription={subscription} />
+          <WebhookTestButton
+            subscription={subscription}
+            headers={{}}
+            body={{
+              exampleString: "payload",
+              exampleBool: true,
+              exampleInt: 99,
+            }}
+          />
           <WebhookDeleteButton subscription={subscription} />
         </div>
       </section>

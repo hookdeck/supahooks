@@ -1,7 +1,6 @@
 "use client";
 
 import { triggerTestWebhook } from "@/app/dashboard/actions";
-import { Event, Subscription } from "@hookdeck/pubsub";
 import { Hookdeck } from "@hookdeck/sdk";
 import dayjs from "dayjs";
 import { Fragment, useCallback, useEffect, useState } from "react";
@@ -10,10 +9,15 @@ import { FaAngleRight, FaAngleDown } from "react-icons/fa";
 
 import { FormButton } from "./form-button";
 import { stripWebhookHeaders } from "@/utils";
+import { WebhookSubscription } from "@/types";
 
-export function EventsTable({ subscription }: { subscription: Subscription }) {
+export function EventsTable({
+  subscription,
+}: {
+  subscription: WebhookSubscription;
+}) {
   const [loading, setLoading] = useState(true);
-  const [eventList, setEventList] = useState<Event[]>([]);
+  const [eventList, setEventList] = useState<Hookdeck.Event[]>([]);
   const [attemptsList, setAttemptsList] = useState<Hookdeck.EventAttempt[]>([]);
   const [showEventDetailsId, setShowEventDetailsId] = useState<string | null>(
     null

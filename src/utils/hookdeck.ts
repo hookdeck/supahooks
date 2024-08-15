@@ -1,16 +1,9 @@
 import { WebhookSubscription } from "@/types";
-import { HookdeckPubSub } from "@hookdeck/pubsub";
 import { Hookdeck, HookdeckClient } from "@hookdeck/sdk";
+import { ConnectionUpsertRequest } from "@hookdeck/sdk/api";
 
-const pubsub = new HookdeckPubSub({
-  apiKey: process.env.HOOKDECK_API_KEY!,
-  publishAuth: {
-    type: "api_key",
-    configs: {
-      apiKey: process.env.PUBLISH_KEY!,
-      headerKey: "x-webhooks-demo-api-key",
-    },
-  },
+const hookdeckClient = new HookdeckClient({
+  token: process.env.HOOKDECK_API_KEY!,
 });
 
 const hookdeck = new HookdeckClient({ token: process.env.HOOKDECK_API_KEY! });
@@ -24,19 +17,41 @@ export async function createWebhookSubscription({
   webhookUrl: string;
   webhookSecret: string;
 }) {
-  const subscription = await pubsub.subscribe({
-    channelName: `${id}__${btoa(webhookUrl).replace(/=/g, "_")}`,
-    url: webhookUrl,
-    auth: {
-      type: "CUSTOM_SIGNATURE",
-      config: {
-        key: "x-webhook-signature",
-        signingSecret: webhookSecret,
+  const b64Url = btoa(webhookUrl).replace(/=/g, "_");
+  const uniqueSubcriptionName = `${id}__${b64Url}`;
+
+  console.debug(
+    "Subscribing: " + JSON.stringify({ uniqueSubcriptionName, webhookUrl })
+  );
+
+  const request: ConnectionUpsertRequest = {
+    name: `conn_${uniqueSubcriptionName}_${b64Url}`,
+    source: {
+      name: `src_${uniqueSubcriptionName}`,
+    },
+    destination: {
+      url: webhookUrl,
+      name: `dst_${uniqueSubcriptionName}`,
+      authMethod: {
+        type: "CUSTOM_SIGNATURE",
+        config: {
+          key: "x-webhook-signature",
+          signingSecret: webhookSecret,
+        },
       },
     },
-  });
+  };
 
-  return subscription;
+  // Workaround as this should be allowed to be undefined
+  if (request.destination?.authMethod === undefined) {
+    delete request.destination?.authMethod;
+  }
+
+  const connection = await hookdeckClient.connection.upsert(request);
+
+  return {
+    connection,
+  };
 }
 
 export async function getWebhookSubscriptions({
@@ -46,16 +61,23 @@ export async function getWebhookSubscriptions({
   userId: string;
   id?: string;
 }): Promise<WebhookSubscription[]> {
-  let subscriptions;
+  const connections = await hookdeckClient.connection.list({
+    id,
+    fullName: userId || undefined, // fuzzy match
+  });
+  const subscriptions: WebhookSubscription[] = [];
 
-  // id identifies a specific connection in Hookdeck so the userId can be ignored
-  if (id !== undefined) {
-    subscriptions = await pubsub.getSubscriptions({
-      subscriptionId: id,
-    });
-  } else {
-    subscriptions = await pubsub.getSubscriptions({
-      channelName: userId,
+  if (connections.models) {
+    connections.models.forEach((connection) => {
+      if (connection.destination.url === undefined) {
+        console.warn(
+          `Skipping connection "${connection.destination.name}" with undefined destination URL`
+        );
+      } else {
+        subscriptions.push({
+          connection,
+        });
+      }
     });
   }
 
@@ -63,25 +85,57 @@ export async function getWebhookSubscriptions({
 }
 
 export async function getWebhookEvents({ id }: { id: string }) {
-  return await pubsub.getEvents({ subscriptionId: id, includeBody: true });
+  let events: Hookdeck.Event[] = [];
+  const _events = await hookdeckClient.event.list({
+    webhookId: id,
+  });
+
+  if (_events !== undefined && _events.models !== undefined) {
+    events = _events.models;
+    for (let i = 0; i < events.length; ++i) {
+      // Get details with the body
+      events[i] = await hookdeckClient.event.retrieve(events[i].id);
+    }
+  }
+
+  return events;
 }
 
 export async function getWebhookAttempts({ eventId }: { eventId: string }) {
-  return pubsub.getDeliveryAttempts({ eventId, includeBody: true });
+  const attempts: Hookdeck.EventAttempt[] = [];
+  const attemptsResult = await hookdeckClient.attempt.list({ eventId });
+  if (
+    attemptsResult.models !== undefined &&
+    attemptsResult.count !== undefined
+  ) {
+    for (let i = 0; i < attemptsResult.count; ++i) {
+      let attempt = attemptsResult.models[i];
+      if (attempt) {
+        // Get details with the body
+        attempt = await hookdeckClient.attempt.retrieve(attempt.id);
+      }
+      if (attempt) {
+        attempts.push(attempt);
+      }
+    }
+  }
+
+  return attempts;
 }
 
 export async function publishWebhookEvent({
   subscriptionId,
-  type,
   body,
   headers,
 }: {
   subscriptionId: string;
-  type: string;
   body: unknown;
   headers: Record<string, string>;
 }) {
-  const subscriptions = await pubsub.getSubscriptions({ subscriptionId });
+  const subscriptions = await getWebhookSubscriptions({
+    id: subscriptionId,
+    userId: "",
+  });
   if (subscriptions.length !== 1) {
     throw new Error(
       `Unexpected number of subscriptions found. Expected 1 and got ${subscriptions.length}.`
@@ -89,17 +143,32 @@ export async function publishWebhookEvent({
   }
 
   const subscription = subscriptions[0];
-  const channel = await pubsub.channel({ name: subscription.channelName });
 
-  const response = await channel.publish({
-    type,
-    headers,
-    data: body,
-  });
+  const eventHeaders: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...headers,
+    "x-webhooks-demo-api-key": process.env.PUBLISH_KEY!,
+  };
+
+  const fetchOptions: RequestInit = {
+    method: "POST",
+    headers: eventHeaders,
+    body: JSON.stringify(body),
+  };
+
+  console.debug("Source request: " + JSON.stringify(fetchOptions));
+  console.debug("With event: " + JSON.stringify(body));
+
+  const response = await fetch(
+    subscription.connection.source.url,
+    fetchOptions
+  );
 
   return response;
 }
 
 export async function deleteWebhookSubscription({ id }: { id: string }) {
-  await pubsub.unsubscribe({ id });
+  console.debug("Unsubscribing: " + JSON.stringify({ id }));
+
+  await hookdeckClient.connection.delete(id);
 }
