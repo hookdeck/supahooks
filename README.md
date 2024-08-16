@@ -55,6 +55,11 @@ PUBLISH_KEY=<add_your_own_unique_key_here>
 ### Database and Hookdeck
 
 Run the following to generate your database schema:
+
+```bash
+npm run setup
+```
+
 If you have not logged in with the Hookdeck CLI (a project dev dependency), you will do so when running the above command.
 
 Copy the contents of [supabase/schema.sql](supabase/schema.sql) into the Supabase SQL editor and run it to create your schema.
