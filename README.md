@@ -12,7 +12,7 @@ This template provides the basic building blocks for registering and managing we
 
 Specifically:
 
-- Each webhook subscription is represented within Hookdeck as a [Connection](https://hookdeck.com/docs/connections?ref=github-outbound-webhooks-template)
+- Each webhook subscription is represented within Hookdeck as a [Connection](https://hookdeck.com/docs/connections?ref=github-outbound-webhooks-template).
 - A Connection has a [Destination](https://hookdeck.com/docs/destinations?ref=github-outbound-webhooks-template), representing the webhook endpoint.
 - A Connection also has a [Source](https://hookdeck.com/docs/sources?ref=github-outbound-webhooks-template), which a webhook publisher should make an authenticated request to publish an event.
 
@@ -63,6 +63,8 @@ npm run setup
 If you have not logged in with the Hookdeck CLI (a project dev dependency), you will do so when running the above command.
 
 Copy the contents of [supabase/schema.sql](supabase/schema.sql) into the Supabase SQL editor and run it to create your schema.
+
+**Note: you may need to enable Database Webhooks for your project**.
 
 This includes creating a `products` table that can be used for testing using [Supabase Database Webhooks](https://supabase.com/docs/guides/database/webhooks?ref=github-outbound-webhooks-template) as triggers for the SupaHooks outbound webhook notifications.
 
