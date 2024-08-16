@@ -32,9 +32,47 @@ export type Database = {
           {
             foreignKeyName: "account_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          owner_id: string | null
+          price: number | null
+          stock_count: number | null
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          owner_id?: string | null
+          price?: number | null
+          stock_count?: number | null
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          owner_id?: string | null
+          price?: number | null
+          stock_count?: number | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["owner_id"]
           },
         ]
       }

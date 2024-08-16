@@ -152,11 +152,11 @@ export async function getWebhookAttempts({ eventId }: { eventId: string }) {
 export async function publishWebhookEvent({
   subscriptionId,
   body,
-  headers,
+  headers = {},
 }: {
   subscriptionId: string;
   body: unknown;
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
 }) {
   const subscriptions = await getWebhookSubscriptions({
     id: subscriptionId,
