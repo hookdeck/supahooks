@@ -20,7 +20,11 @@ export async function checkAccountsTable() {
     .limit(1)
     .single();
 
-  console.log("No account exists for user", data.user.id, ". Creating one...");
+  console.debug(
+    "No account exists for user",
+    data.user.id,
+    ". Creating one..."
+  );
 
   if (!account.data) {
     const webhookSecret = generateWebhookSecret();

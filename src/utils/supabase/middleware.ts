@@ -47,7 +47,6 @@ export async function updateSession(request: NextRequest) {
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   } else if (isUserAuthPage) {
-    console.log("User is on an auth page, skipping middleware");
     return supabaseResponse;
   }
 

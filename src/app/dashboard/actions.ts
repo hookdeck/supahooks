@@ -132,7 +132,7 @@ export async function triggerTestWebhook(prevState: any, formData: FormData) {
   const headersObj = JSON.parse(headers) as Record<string, string>;
   const allowedHeaders = stripWebhookHeaders(headersObj);
 
-  console.log("Triggering webhook", subscriptionId, allowedHeaders, body);
+  console.debug("Triggering webhook", subscriptionId, allowedHeaders, body);
   const bodyObj = JSON.parse(body);
 
   const response = await publishWebhookEvent({
