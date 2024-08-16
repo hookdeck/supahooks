@@ -4,3 +4,7 @@ port = 54321
 schemas = ["public", "graphql_public"]
 extra_search_path = ["public", "extensions"]
 max_rows = 1000
+
+[auth.email.template.invite]
+subject = "You are invited to SupaHooks"
+content_path = "./supabase/templates/invite.html"
