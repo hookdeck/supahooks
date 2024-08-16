@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "setup": "npx tsx script/setup.ts"
   },
   "dependencies": {
     "@hookdeck/sdk": "^0.3.1",
