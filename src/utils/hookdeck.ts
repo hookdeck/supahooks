@@ -6,8 +6,6 @@ const hookdeckClient = new HookdeckClient({
   token: process.env.HOOKDECK_API_KEY!,
 });
 
-const hookdeck = new HookdeckClient({ token: process.env.HOOKDECK_API_KEY! });
-
 /**
  * Creates a new webhook subscription by creating a Hookdeck Connection with a Source and Destination.
  *
