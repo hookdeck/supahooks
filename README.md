@@ -4,6 +4,8 @@ A template demonstrating using [Hookdeck](https://hookdeck.com?ref=github-outbou
 
 ![Outbound Webhooks with Hookdeck](docs/outbound-webhooks-demo-v3.png)
 
+<p align="center"><a href="https://www.youtube.com/watch?v=v2CX6EseFS0">📽️ Watch the SupaHooks video walkthrough</a></p>
+
 ## About
 
 [Hookdeck](https://hookdeck.com?ref=github-outbound-webhooks-template) is an [event gateway](https://hookdeck.com/blog/event-gateway-definition?ref=github-outbound-webhooks-template): infrastructure that supports use cases, including receiving webhooks, sending webhooks, and connecting third-party services.
