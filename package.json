@@ -14,7 +14,7 @@
     "@hookdeck/sdk": "^0.3.1",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.47.8",
-    "dayjs": "^1.11.12",
+    "dayjs": "^1.11.13",
     "next": "^14.2.15",
     "react": "^18",
     "react-dom": "^18",
